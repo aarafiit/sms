@@ -55,4 +55,23 @@ public class StudentController {
                 return studentService.deleteStudent(id);
         }
 
+/*
+    fetch student by name
+*/
+        @GetMapping("/students/name/{name}")
+        public Student getStudentByName(@PathVariable String name){
+                return studentService.getStudentByName(name);
+        }
+
+
+/*
+        fetch student by dept
+*/
+        @GetMapping("/students/department/{departmentName}")
+        public Student getStudentByDeptName(@PathVariable("departmentName") String departmentName){
+                return studentService.getStudentByDepartment(departmentName);
+        }
+
+
+
 }
