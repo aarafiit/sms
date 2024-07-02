@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import rafi.app.sms_backEnd.entity.Student;
+import rafi.app.sms_backEnd.error.StudentNotFoundException;
 import rafi.app.sms_backEnd.repository.StudentRepo;
 
 import java.util.List;
@@ -26,9 +27,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentById(Long id) {
+    public Student getStudentById(Long id) throws StudentNotFoundException {
         /* Why I have to use .get()??
          * Ans. It's used to avoid NullPointerException. */
+        Optional<Student> student = studentRepo.findById(id);
+        if(!student.isPresent()){
+            throw new StudentNotFoundException("Student is not present");
+        }
         return studentRepo.findById(id).get();
     }
 
@@ -48,7 +53,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public String deleteStudent(Long id) {
         studentRepo.deleteById(id);
-        return "Student with id : " + id + "deleted successfully!";
+        return "Student with id : " + id + " deleted successfully!";
     }
 
     @Override

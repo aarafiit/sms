@@ -1,12 +1,15 @@
 package rafi.app.sms_backEnd.controller;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import rafi.app.sms_backEnd.entity.Student;
+import rafi.app.sms_backEnd.error.StudentNotFoundException;
 import rafi.app.sms_backEnd.service.StudentService;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping
@@ -14,6 +17,8 @@ public class StudentController {
 
         @Autowired
         private StudentService studentService;
+
+        private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
 
 /*
         creating a new Student
@@ -35,7 +40,7 @@ public class StudentController {
         fetch student by ID
 */
         @GetMapping("/students/{id}")
-        public Student getStudentById(@PathVariable("id") Long id){
+        public Student getStudentById(@PathVariable("id") Long id) throws StudentNotFoundException {
                 return studentService.getStudentById(id);
         }
 
@@ -70,6 +75,12 @@ public class StudentController {
         @GetMapping("/students/department/{departmentName}")
         public Student getStudentByDeptName(@PathVariable("departmentName") String departmentName){
                 return studentService.getStudentByDepartment(departmentName);
+        }
+
+        @GetMapping("/")
+        public String logerCheckAPI(){
+                LOGGER.info("Working API");
+                return "Hello World!!";
         }
 
 
