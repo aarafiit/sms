@@ -1,10 +1,7 @@
 package rafi.app.sms_backEnd.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,20 +10,38 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+
+@Table(
+        name = "tbl_student",
+        uniqueConstraints = @UniqueConstraint(
+                name = "",
+                columnNames = "student_email"
+        )
+)
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "student_sequence",
+            sequenceName = "student_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_sequence"
+    )
     private Long studentId;
     private String studentName;
     private String studentDept;
     private String studentAddress;
+    @Column(name = "student_email")
     private String studentEmail;
-    private String guardianMobileNo;
-    private String guardianName;
+    @Embedded
+    private Guardian guardian;
 
-    public Long getStudentId() {
+   /* public Long getStudentId() {
         return studentId;
     }
 
@@ -76,5 +91,5 @@ public class Student {
                 ", studentDept='" + studentDept + '\'' +
                 ", studentAddress='" + studentAddress + '\'' +
                 '}';
-    }
+    }*/
 }
