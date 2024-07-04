@@ -35,4 +35,14 @@ public class PaginationSortingExample {
         Page<Product> products = productService.findProductWithPagination(offset, size);
         return new APIResponse<>(products.getSize(),products);
     }
+
+    @GetMapping("/pagination/{field}/{offset}/{size}")
+    private APIResponse<Page<Product>> getProductsWithPaginationAndSorting(
+            @PathVariable int offset,
+            @PathVariable int size,
+            @PathVariable String field
+    ) {
+        Page<Product> products = productService.findProductWithPaginationAndSorting(offset, size,field);
+        return new APIResponse<>(products.getSize(),products);
+    }
 }

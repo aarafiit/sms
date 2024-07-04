@@ -41,5 +41,14 @@ public class ProductService {
             return products;
     }
 
+    public Page<Product> findProductWithPaginationAndSorting(
+            int offset,
+            int size,
+            String field
+    ){
+        Page<Product> products = productRepository.findAll(PageRequest.of(offset,size,Sort.by(Sort.Direction.DESC,field)));
+        return products;
+    }
+
 
 }
